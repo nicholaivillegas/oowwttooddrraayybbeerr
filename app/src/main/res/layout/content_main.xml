@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.villegapps.owto.MainActivity"
+    tools:showIn="@layout/app_bar_main">
+
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        tools:context="com.villegapps.owto.MapsActivity" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/rounded_map_rectangle"
+        android:elevation="5dp"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/edit_pickup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_map_rectangle"
+            android:drawableLeft="@drawable/ic_my_location_black_24dp"
+            android:drawablePadding="10dp"
+            android:hint="Pick-up point"
+            android:inputType="textCapWords"
+            android:padding="10dp"
+            android:textColor="@color/colorPrimaryDark" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@color/colorPrimaryDark" />
+
+        <EditText
+            android:id="@+id/edit_destination"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_map_rectangle"
+            android:drawableLeft="@drawable/ic_location_on_black_24dp"
+            android:drawablePadding="10dp"
+            android:hint="Destination"
+            android:inputType="textCapWords"
+            android:padding="10dp"
+            android:textColor="@color/colorPrimaryDark" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_eta_and_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/linear_book"
+        android:layout_alignEnd="@+id/linear_book"
+        android:layout_alignStart="@+id/linear_book"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/rounded_map_rectangle"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/text_eta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_access_time_black_18dp"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="10 mins away"
+            android:textColor="@color/colorPrimaryDark" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@color/colorPrimaryDark" />
+
+        <TextView
+            android:id="@+id/text_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_account_balance_wallet_black_18dp"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="121.00 PHP" />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/linear_book"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/linearLayout"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/linearLayout"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/rounded_map_rectangle"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/button_book"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_selector_red"
+            android:elevation="5dp"
+            android:text="BOOK"
+            android:textColor="@color/colorWhite" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/image_pin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:elevation="15dp"
+        android:src="@drawable/ic_location_on_black_48dp"
+        android:tint="@color/colorPrimary" />
+</RelativeLayout>
