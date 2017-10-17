@@ -4,7 +4,7 @@
 
     To get one, follow this link, follow the directions and press "Create" at the end:
 
-    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=E8:0E:48:DF:6E:D3:8A:E3:38:71:10:57:90:81:7E:F4:E1:33:FB:61%3Bcom.villegapps.owto
+    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=E8:0E:48:DF:6E:D3:8A:E3:38:71:10:57:90:81:7E:F4:E1:33:FB:61%3Bcom.villegapps.owtodriver
 
     You can also add your credentials to an existing key, using these values:
 
@@ -21,6 +21,6 @@
     string in this file.
     -->
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
-        AIzaSyCSSdED0r91mjrfJvbZmwViH3zvS-XtXkQ
+        AIzaSyAobhRoHEND169UFE_fECsnZZZSYD4tZbY
     </string>
 </resources>
