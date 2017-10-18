@@ -123,6 +123,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             //If everything went fine lets get latitude and longitude
             currentLatitude = location.getLatitude();
             currentLongitude = location.getLongitude();
+            mMap.clear();
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLatitude, currentLongitude), 17.0f));
 
             latLng = new LatLng(currentLatitude, currentLongitude);
