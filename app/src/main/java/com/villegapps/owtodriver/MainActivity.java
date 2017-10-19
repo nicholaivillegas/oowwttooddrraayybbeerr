@@ -9,11 +9,16 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -28,6 +33,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.villegapps.owtodriver.fragment.EarningsFragment;
 
 import java.io.IOException;
 
@@ -46,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private static final int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     Marker currLocationMarker;
     LatLng latLng;
+    EarningsFragment earningsFragment;
+//    private boolean isChecked = false;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -54,16 +62,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    mTextMessage.setText(R.string.title_home);
+                    getSupportFragmentManager().beginTransaction().remove(earningsFragment).commit();
                     return true;
                 case R.id.navigation_earnings:
-                    mTextMessage.setText(R.string.title_earnings);
+                    switchFragment(earningsFragment);
                     return true;
                 case R.id.navigation_ratings:
-                    mTextMessage.setText(R.string.title_ratings);
                     return true;
                 case R.id.navigation_account:
-                    mTextMessage.setText(R.string.title_account);
                     return true;
             }
             return false;
@@ -77,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_main);
         requestCoarseLocation();
         requestFineLocation();
-        mTextMessage = (TextView) findViewById(R.id.message);
+        earningsFragment = new EarningsFragment();
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
@@ -100,6 +106,40 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .setInterval(10 * 1000)        // 10 seconds, in milliseconds
                 .setFastestInterval(1000); // 1 second, in milliseconds
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem checkable = menu.findItem(R.id.checkable_menu);
+        checkable.setChecked(false);
+        Toast.makeText(this, "Offline", Toast.LENGTH_SHORT).show();
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.checkable_menu:
+                if (!item.isChecked()) {
+                    item.setIcon(R.drawable.ic_radio_button_checked_white_24dp);
+                    item.setChecked(true);
+                    Toast.makeText(this, "Online", Toast.LENGTH_SHORT).show();
+                } else {
+                    item.setIcon(R.drawable.ic_radio_button_unchecked_white_24dp);
+                    item.setChecked(false);
+                    Toast.makeText(this, "Offline", Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            default:
+                return false;
+        }
     }
 
     @Override
@@ -189,6 +229,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        mMap.setMyLocationEnabled(true);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLatitude, currentLongitude), 16.0f));
     }
 
@@ -232,4 +283,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     1);
         }
     }
+
+    private void switchFragment(Fragment fragment) {
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.content, fragment);
+        transaction.commit();
+    }
+
+
 }
