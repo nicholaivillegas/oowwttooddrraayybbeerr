@@ -17,6 +17,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +35,9 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.villegapps.owtodriver.fragment.AccountFragment;
 import com.villegapps.owtodriver.fragment.EarningsFragment;
+import com.villegapps.owtodriver.fragment.RatingsFragment;
 
 import java.io.IOException;
 
@@ -53,6 +57,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     Marker currLocationMarker;
     LatLng latLng;
     EarningsFragment earningsFragment;
+    RatingsFragment ratingsFragment;
+    AccountFragment accountFragment;
+    LinearLayout linearSummary;
 //    private boolean isChecked = false;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -63,13 +70,21 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     getSupportFragmentManager().beginTransaction().remove(earningsFragment).commit();
+                    getSupportFragmentManager().beginTransaction().remove(ratingsFragment).commit();
+                    getSupportFragmentManager().beginTransaction().remove(accountFragment).commit();
+                    linearSummary.setVisibility(View.VISIBLE);
                     return true;
                 case R.id.navigation_earnings:
                     switchFragment(earningsFragment);
+                    linearSummary.setVisibility(View.GONE);
                     return true;
                 case R.id.navigation_ratings:
+                    switchFragment(ratingsFragment);
+                    linearSummary.setVisibility(View.GONE);
                     return true;
                 case R.id.navigation_account:
+                    switchFragment(accountFragment);
+                    linearSummary.setVisibility(View.GONE);
                     return true;
             }
             return false;
@@ -83,7 +98,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_main);
         requestCoarseLocation();
         requestFineLocation();
+        linearSummary = (LinearLayout) findViewById(R.id.linear_summary);
         earningsFragment = new EarningsFragment();
+        ratingsFragment = new RatingsFragment();
+        accountFragment = new AccountFragment();
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
